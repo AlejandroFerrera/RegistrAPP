@@ -1,9 +1,38 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>profesor</ion-title>
+    <ion-title>Profesor</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-item lines="inset">
+    <ion-avatar slot="end">
+      <ion-icon name="person-circle-outline"></ion-icon>
+    </ion-avatar>
+    <ion-label>
+      <h3>Diego Cares</h3>
+      <p>dcares@profesor.duoc.cl</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Secciones:</ion-label>
+    </ion-list-header>
+    <ion-card *ngFor="let asignatura of asignaturas" color="tertiary" type="ios">
+      <ion-card-header>
+        <ion-card-subtitle>
+          {{ asignatura.section }}
+        </ion-card-subtitle>
+        <ion-card-title>
+          {{ asignatura.cod }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        {{ asignatura.title }}
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
 
 </ion-content>
