@@ -14,10 +14,10 @@ export class ProfesorPage implements OnInit {
 
   constructor(private profesorService: ProfesorService, private loginService: LoginService) { }
 
+
   ngOnInit() {
 
     this.asignaturas = this.profesorService.getAsignaturas()
     this.loginService.$getListSource.subscribe(lista => this.list = [...lista]).unsubscribe
-    // this.loginService.$getListSource.subscribe(lista => console.log(lista))
   }
 }

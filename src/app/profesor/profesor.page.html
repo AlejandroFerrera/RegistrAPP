@@ -8,9 +8,7 @@
 <ion-content>
 
   <ion-item lines="full">
-    <ion-avatar slot="end">
-      <ion-icon name="person-circle-outline"></ion-icon>
-    </ion-avatar>
+    <ion-button size="small" color="medium" fill="outline" slot="end" strong="true" [routerLink]="['/login']">Cerrar</ion-button>
     <ion-label>
       <h3>{{ list[1] }}</h3>
       <p>{{ list[0] }}</p>
@@ -21,7 +19,7 @@
     <ion-list-header>
       <ion-label>Secciones:</ion-label>
     </ion-list-header>
-    <ion-card button="true" *ngFor="let asignatura of asignaturas" color="{{ asignatura.color }}"
+    <ion-card button="true" *ngFor="let asignatura of asignaturas" color="light"
       [routerLink]="['/profesor', (asignatura.cod + asignatura.section)]">
       <ion-card-header>
         <ion-card-subtitle>
@@ -34,6 +32,7 @@
       <ion-card-content>
         {{ asignatura.title }}
       </ion-card-content>
+      <div [style.backgroundColor]="asignatura.hex" id="after"></div>
     </ion-card>
   </ion-list>
 </ion-content>
