@@ -6,7 +6,7 @@
 
 <ion-content>
 
-  <ion-item lines="inset">
+  <ion-item lines="full">
     <ion-avatar slot="end">
       <ion-icon name="person-circle-outline"></ion-icon>
     </ion-avatar>
@@ -20,7 +20,8 @@
     <ion-list-header>
       <ion-label>Secciones:</ion-label>
     </ion-list-header>
-    <ion-card *ngFor="let asignatura of asignaturas" color="tertiary" type="ios">
+    <ion-card button="true" *ngFor="let asignatura of asignaturas" color="{{ asignatura.color }}"
+      [routerLink]="['/profesor', (asignatura.cod + asignatura.section)]">
       <ion-card-header>
         <ion-card-subtitle>
           {{ asignatura.section }}
