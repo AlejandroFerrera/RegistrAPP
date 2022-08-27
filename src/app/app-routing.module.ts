@@ -21,7 +21,17 @@ const routes: Routes = [
   },
   {
     path: 'profesor',
-    loadChildren: () => import('./profesor/profesor.module').then( m => m.ProfesorPageModule)
+    children: [
+      {
+        path: "", 
+        loadChildren: () => import('./profesor/profesor.module').then( m => m.ProfesorPageModule)
+      }, 
+      {
+        path: ":sectionCode",
+        loadChildren: () => import('./profesor/section-qr/section-qr.module').then(m => m.SectionQrPageModule)
+      }
+    ]
+
   },
 
 ];
