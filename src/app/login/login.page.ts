@@ -17,13 +17,13 @@ export class LoginPage implements OnInit {
   private userList = [
 
     {
-      "user": "dcaresg@profesor.duocuc.cl",
+      "user": "dcaresg@profesor.duoc.cl",
       "pass": "profepass",
       "nombre": "Diego Cares",
       "isProfesor": true
     },
     {
-      "user": "otroprofe@profesor.duocuc.cl",
+      "user": "otroprofe@profesor.duoc.cl",
       "pass": "profepass",
       "nombre": "Otro Profesor",
       "isProfesor": true
@@ -68,20 +68,22 @@ export class LoginPage implements OnInit {
     var lista = []
     // loop validate
     for (let i in this.userList) {
-      console.log(this.userList[i])
+
       // profesor - alumno - error
       if (this.userList[i].user === f.user && this.userList[i].pass === f.pass && this.userList[i].isProfesor === true) {
         // ? inicio la lista con el nombre y correo
         lista = [this.userList[i].user, this.userList[i].nombre]
         // ? envio la lista de la instacia de loginService metodo sendlistSource envio esta lista
-        this.loginService.sendListSource(lista);
         error = false;
+        this.loginService.sendListSource(lista);
+
         this.router.navigate(['/profesor'])
       }
       else if (this.userList[i].user === f.user && this.userList[i].pass === f.pass && this.userList[i].isProfesor === false) {
         lista = [this.userList[i].user, this.userList[i].nombre]
-        this.loginService.sendListSource(lista);
         error = false;
+        this.loginService.sendListSource(lista);
+
         this.router.navigate(['/alumnos'])
       }
       else {
