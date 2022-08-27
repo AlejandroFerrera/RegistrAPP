@@ -27,13 +27,13 @@ export class ProfesorService {
       cod: 'PGY2121',
       title: 'Programación de escritorio',
       section: '002V',
-      color: "success"
+      color: "secondary"
     },
     {
       cod: 'PGY1121',
       title: 'Programación de algoritmos',
       section: '002V',
-      color: 'warning'
+      color: 'tertiary'
     }
   ]
 
