@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController,NavController,AnimationController,createAnimation} from '@ionic/angular';
 
 
+
 @Component({
   selector: 'app-alumnos',
   templateUrl: './alumnos.page.html',
@@ -9,7 +10,26 @@ import { AlertController,NavController,AnimationController,createAnimation} from
 })
 export class AlumnosPage implements OnInit {
 
-  constructor(private animationCtrl: AnimationController) { }
+  constructor(private animationCtrl: AnimationController, private alertController: AlertController) { }
+  handlerMessage = '';
+  roleMessage = '';
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Abriendo cámara para confirmar QR...',
+      buttons: [
+        
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+        },
+      ],
+    });
+
+    await alert.present();
+
+  
+  }
 
   ngOnInit() {
 
@@ -28,6 +48,11 @@ export class AlumnosPage implements OnInit {
 
   animationClick.play()
 
-  }
+
+  
+  
+
+}
+
 
 }

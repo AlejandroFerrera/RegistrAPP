@@ -22,6 +22,7 @@
         size-xl="12"
         class="ion-align-self-center"
       >
+        <!--Boton-->
         <div class="qr ion-text-center" size-sm="6" size-md="6" size-xl="12">
           <ion-text color="white">
             <h2>Confirma tu asistencia</h2>
@@ -31,6 +32,7 @@
             class="boton"
             size="large"
             color="warning"
+            (click)="presentAlert()"
           >
             <h2>AQUÍ</h2></ion-button
           >
@@ -41,10 +43,4 @@
 </ion-content>
 
 <!--footer-->
-<ion-footer class="ion-text-center" collapse="fade">
-  <ion-toolbar>
-    <ion-title size="medium">
-      <ion-icon name="happy-sharp"></ion-icon>{{value}}</ion-title
-    >
-  </ion-toolbar>
-</ion-footer>
+<ion-footer class="ion-text-center" collapse="fade"> </ion-footer>
