@@ -7,10 +7,14 @@
 <ion-content>
   <!--Avatar-->
 
+  <ion-item lines="none" color="undefined"><ion-button size="small" color="medium" fill="outline" slot="end" strong="true" [routerLink]="['/login']">Cerrar</ion-button></ion-item>
   <div class="ion-text-center" style="margin-top: 20px">
     <img class="img" src="assets/img/avatar.png" />
+
+
+
     <ion-text color="white" class="bienvenido"
-      ><h1>Bienvenido Alumno</h1></ion-text
+      ><h1>Bienvenido {{ name }}</h1></ion-text
     >
   </div>
   <!--Qr-->

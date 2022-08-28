@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController,NavController,AnimationController,createAnimation} from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, NavController, AnimationController, createAnimation } from '@ionic/angular';
 
 
 
@@ -10,15 +11,17 @@ import { AlertController,NavController,AnimationController,createAnimation} from
 })
 export class AlumnosPage implements OnInit {
 
-  constructor(private animationCtrl: AnimationController, private alertController: AlertController) { }
+  constructor(private animationCtrl: AnimationController, private alertController: AlertController, private route: ActivatedRoute, private router: Router) { }
   handlerMessage = '';
   roleMessage = '';
+  user: any;
+  name: any;
 
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Abriendo cámara para confirmar QR...',
       buttons: [
-        
+
         {
           text: 'Aceptar',
           role: 'confirm',
@@ -28,31 +31,41 @@ export class AlumnosPage implements OnInit {
 
     await alert.present();
 
-  
+
   }
 
   ngOnInit() {
 
-  /*animacion*/
-  
-  const animationClick = this.animationCtrl.create()
-  .addElement(document.getElementById("animationClick"))
-  .fill('none')
-  .duration(1500)
-  .iterations(Infinity)
-  .keyframes([
-    { offset: 0, transform: 'scale(1)', opacity: '1' },
-    { offset: 0.5, transform: 'scale(1.1)', opacity: '0.9' },
-    { offset: 1, transform: 'scale(1)', opacity: '1' }
-  ]);
+    /* paso de data */
+    this.route.queryParams.subscribe(queryParams => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.user = this.router.getCurrentNavigation().extras.state.user;
+        this.name = this.router.getCurrentNavigation().extras.state.name;
 
-  animationClick.play()
+      }
+    })
 
 
-  
-  
+    /*animacion*/
 
-}
+    const animationClick = this.animationCtrl.create()
+      .addElement(document.getElementById("animationClick"))
+      .fill('none')
+      .duration(1500)
+      .iterations(Infinity)
+      .keyframes([
+        { offset: 0, transform: 'scale(1)', opacity: '1' },
+        { offset: 0.5, transform: 'scale(1.1)', opacity: '0.9' },
+        { offset: 1, transform: 'scale(1)', opacity: '1' }
+      ]);
+
+    animationClick.play()
+
+
+
+
+
+  }
 
 
 }

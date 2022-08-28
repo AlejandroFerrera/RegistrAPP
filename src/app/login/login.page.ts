@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
-import { LoginService } from './login.service'
-/*
-! importo el servicio
-*/
+import { NavigationExtras, Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -49,7 +48,7 @@ export class LoginPage implements OnInit {
   loginForm: FormGroup;
 
   // init login form ,
-  constructor(public fb: FormBuilder, private router: Router, private loginService: LoginService) {
+  constructor(public fb: FormBuilder, private router: Router, private alertController: AlertController) {
     this.loginForm = this.fb.group({
       'user': new FormControl("", Validators.required),
       'pass': new FormControl("", Validators.required),
@@ -57,14 +56,28 @@ export class LoginPage implements OnInit {
   };
 
 
+
   ngOnInit() {
   }
 
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Usuario y/o contraseña son incorrectos.',
+      buttons: [
+
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+        },
+      ],
+    });
+    await alert.present();
+  };
 
   login() {
     //get data form
     var f = this.loginForm.value;
-    var error = true;
+
     // list source
     var lista = []
     // loop validate
@@ -72,26 +85,44 @@ export class LoginPage implements OnInit {
 
       // profesor - alumno - error
       if (this.userList[i].user === f.user && this.userList[i].pass === f.pass && this.userList[i].isProfesor === true) {
-        // ? inicio la lista con el nombre y correo
-        lista = [this.userList[i].user, this.userList[i].nombre]
-        // ? envio la lista de la instacia de loginService metodo sendlistSource envio esta lista
-        error = false;
-        this.loginService.sendListSource(lista);
+        // generate navigator
+        let navigatorExtras: NavigationExtras = {
+          state: {
+            user: this.userList[i].user,
+            name: this.userList[i].nombre
+          }
 
-        this.router.navigate(['/profesor'])
+        }
+        var error = false;
+
+
+
+        this.router.navigate(['/profesor'], navigatorExtras);
+        break;
       }
       else if (this.userList[i].user === f.user && this.userList[i].pass === f.pass && this.userList[i].isProfesor === false) {
         lista = [this.userList[i].user, this.userList[i].nombre]
-        error = false;
-        this.loginService.sendListSource(lista);
+        var error = false;
+        let navigatorExtras: NavigationExtras = {
+          state: {
+            user: this.userList[i].user,
+            name: this.userList[i].nombre
+          }
 
-        this.router.navigate(['/alumnos'])
+        }
+
+        this.router.navigate(['/alumnos'], navigatorExtras);
+        break;
       }
       else {
-        error = true;
+        var error = true;
       }
       // && this.userList[i].pass === f.pass
     };
+    console.log(error)
+    if (error) {
+      this.presentAlert();
+    }
 
 
 
