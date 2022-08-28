@@ -1,7 +1,9 @@
 .img{
     height: 100px;
     width: 100px;
-    top: 100px; 
+    margin-top: 80px;
+    object-fit: cover;
+
 }
 
 .bienvenido{
@@ -15,4 +17,11 @@
 
 .qr{
     margin-top: 100px;
+}
+
+.boton{
+    width: 200px;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 10px;
 }
