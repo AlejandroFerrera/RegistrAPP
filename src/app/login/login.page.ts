@@ -12,6 +12,7 @@ import { LoginService } from './login.service'
 })
 export class LoginPage implements OnInit {
 
+  isInDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
   // hardData users
   private userList = [

@@ -4,29 +4,29 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
-<form [formGroup]="loginForm">
-  <ion-card>
-    <ion-card-header>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list>
-          <ion-item>
-            <ion-label  position="floating">Usuario:</ion-label>
-            <ion-input type="text" formControlName="user"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label  position="floating">Contraseña:</ion-label>
-            <ion-input type="password" formControlName="pass"></ion-input>
-          </ion-item>
-        </ion-list>
-        <br>
-        <ion-button  color="primary" (click) = "login()" >
-          Iniciar sesión
-        </ion-button>
-      </ion-card-content>
+  <div class='logo'>
+    <ion-img [src]="isInDarkMode ? '../../assets/logo-dark-mode.png' : '../../assets/logo-white-mode.png'" alt=""></ion-img>
+  </div>
+  <br>
+  <br>
+  <form [formGroup]="loginForm">
 
-  </ion-card>
+    <div class="login-container ion-text-center" color="undefined" mode="md">
+      <ion-item color="undefined">
+        <ion-input type="text" formControlName="user" placeholder="Correo:"></ion-input>
+      </ion-item>
+      <ion-item color="undefined">
+        <ion-input type="password" formControlName="pass" placeholder="Contraseña:"></ion-input>
+      </ion-item>
+      <ion-button (click)="login()" color="warning" mode="md">
+        INICIAR SESIÓN
+      </ion-button>
+    </div>
 
-</form>
+
+
+  </form>
+
 </ion-content>

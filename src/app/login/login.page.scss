@@ -1,0 +1,28 @@
+.logo {
+  width: 60%;
+  margin-left: 41px;
+  margin-top: 50px;
+
+}
+
+ion-img {
+  background-color: transparent;
+}
+
+ion-item.item-has-focus>ion-label {
+  --color: #ffb71b !important;
+}
+.login-container {
+  width: 75%;
+  margin: 0 auto;
+}
+ion-button {
+  --border-radius: 50px;
+  font-weight: bold;
+  --padding-start: 30px;
+  --padding-end: 30px;
+  --padding-top: 15px;
+  --padding-bottom: 15px;
+  margin-top: 30px;
+}
+
