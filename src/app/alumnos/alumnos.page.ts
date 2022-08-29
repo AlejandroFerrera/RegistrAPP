@@ -17,11 +17,11 @@ export class AlumnosPage implements OnInit {
   user: any;
   name: any;
 
+ /* Alert*/
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Abriendo cámara para confirmar QR...',
       buttons: [
-
         {
           text: 'Aceptar',
           role: 'confirm',
