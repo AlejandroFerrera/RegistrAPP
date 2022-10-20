@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, NavController, AnimationController, createAnimation } from '@ionic/angular';
-
+import { Injectable } from '@angular/core';
+import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 
 
 @Component({
@@ -9,13 +11,17 @@ import { AlertController, NavController, AnimationController, createAnimation } 
   templateUrl: './alumnos.page.html',
   styleUrls: ['./alumnos.page.scss'],
 })
-export class AlumnosPage implements OnInit {
+export class AlumnosPage implements OnInit, OnDestroy{
 
-  constructor(private animationCtrl: AnimationController, private alertController: AlertController, private route: ActivatedRoute, private router: Router) { }
+  constructor(private camera: Camera,private animationCtrl: AnimationController, private alertController: AlertController, private route: ActivatedRoute, private router: Router) { }
   handlerMessage = '';
   roleMessage = '';
   user: any;
   name: any;
+  scannedResult: any;
+  content_visibility='';
+
+
 
  /* Alert*/
   async presentAlert() {
@@ -33,6 +39,59 @@ export class AlumnosPage implements OnInit {
 
 
   }
+
+  /*permiso para scanear qr*/
+    async checkPermission(){
+      try{
+      //Consultar o solicitar permisión
+      const status = await BarcodeScanner.checkPermission({ force: true});
+      if (status.granted){
+      //El usuario otorgó permiso
+      return true; 
+      }
+    return false; 
+  } catch(e){
+    console.log(e);
+  }
+  }
+
+// inicio de scaneo
+  async StartScan(){
+    try{
+      const permision= await this.checkPermission();
+      if(!permision){
+        return;
+      }
+      await BarcodeScanner.hideBackground();
+      document.querySelector('body').classList.add('scanner-active');
+      this.content_visibility= 'hidden';
+      const result = await BarcodeScanner.startScan();
+      console.log(result);
+      BarcodeScanner.showBackground();
+      document.querySelector('body').classList.remove('scanner-active');
+      this.content_visibility= '';
+      if(result?.hasContent){
+        this.scannedResult= result.content;
+        console.log(this.scannedResult);
+      }
+    } catch(e){
+      console.log(e);
+      this.stopScan();
+    }
+  }
+
+  //detener escaneo
+  stopScan(){
+    BarcodeScanner.showBackground();
+    BarcodeScanner.stopScan();
+    document.querySelector('body').classList.remove('scanner-active');
+    this.content_visibility='';
+  }
+
+  ngOnDestroy(): void {
+    this.stopScan();
+  }
+
 
   ngOnInit() {
 
@@ -60,12 +119,8 @@ export class AlumnosPage implements OnInit {
       ]);
 
     animationClick.play()
-
-
-
-
-
   }
+
 
 
 }
