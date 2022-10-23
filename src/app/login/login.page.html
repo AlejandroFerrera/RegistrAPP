@@ -7,18 +7,19 @@
 
 <ion-content>
   <div class='logo'>
-    <ion-img [src]="isInDarkMode ? '../../assets/logo-dark-mode.png' : '../../assets/logo-white-mode.png'" alt=""></ion-img>
+    <ion-img [src]="isInDarkMode ? '../../assets/logo-dark-mode.png' : '../../assets/logo-white-mode.png'" alt="">
+    </ion-img>
   </div>
   <br>
   <br>
-  <form [formGroup]="loginForm">
+  <form>
 
     <div class="login-container ion-text-center" color="undefined" mode="md">
       <ion-item color="undefined">
-        <ion-input type="text" formControlName="user" placeholder="Correo:"></ion-input>
+        <ion-input type="text" [formControl]="email" placeholder="Correo:"></ion-input>
       </ion-item>
       <ion-item color="undefined">
-        <ion-input type="password" formControlName="pass" placeholder="Contraseña:"></ion-input>
+        <ion-input type="password" [formControl]="password" placeholder="Contraseña:"></ion-input>
       </ion-item>
       <ion-button (click)="login()" color="warning" mode="md">
         INICIAR SESIÓN
