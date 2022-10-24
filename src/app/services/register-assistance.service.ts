@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root',
 })
 export class RegisterAssistanceService {
+  
   assistanceURL = 'https://registrapp.onrender.com/api/asistencia/';
 
   httpOptions = {
