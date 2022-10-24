@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [style.visibility]="contentVisibility">
   <!--Avatar-->
 
   <ion-item lines="none" color="undefined">
@@ -35,6 +35,8 @@
             <h2>AQUÍ</h2>
           </ion-button>
         </div>
+
+        <p>Scanned Result: {{ scannedResultText }}</p>
       </ion-col>
     </ion-row>
   </ion-grid>

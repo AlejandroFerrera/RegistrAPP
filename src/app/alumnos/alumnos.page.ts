@@ -10,9 +10,10 @@ import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 })
 export class AlumnosPage implements OnInit, OnDestroy {
   scannedResult: any;
-  content_visibility = '';
+  contentVisibility = '';
   handlerMessage = '';
   roleMessage = '';
+  scannedResultText = "";
 
   constructor(
     private animationCtrl: AnimationController,
@@ -32,9 +33,9 @@ export class AlumnosPage implements OnInit, OnDestroy {
   apellido: String;
 
   /* Alert*/
-  async presentAlert() {
+  async presentAlert(message: string) {
     const alert = await this.alertController.create({
-      header: 'Abriendo cámara para confirmar QR...',
+      header: message,
       buttons: [
         {
           text: 'Aceptar',
@@ -85,34 +86,31 @@ export class AlumnosPage implements OnInit, OnDestroy {
     }
   }
 
-  async startScan() {
-    try {
-      const permision = await this.checkPermission();
-      if (!permision) {
-        return;
-      }
-      await BarcodeScanner.hideBackground();
-      document.querySelector('body').classList.add('scanner-active');
-      this.content_visibility = 'hidden';
-      const result = await BarcodeScanner.startScan();
-      console.log(result);
-      BarcodeScanner.showBackground();
-      document.querySelector('body').classList.remove('scanner-active');
-      this.content_visibility = '';
-      if (result?.hasContent) {
-        this.scannedResult = result.content;
-        console.log(this.scannedResult);
-      }
-    } catch (e) {
-      console.log(e);
-      this.stopScan();
+
+  async startScan()  {
+
+    await BarcodeScanner.checkPermission({ force: true });
+    
+    
+    BarcodeScanner.hideBackground();
+    document.querySelector('body').classList.add('scanner-active')
+    this.contentVisibility = 'hidden';
+    const result = await BarcodeScanner.startScan(); 
+    BarcodeScanner.showBackground()
+    document.querySelector('body').classList.add('scanner-active')
+    this.contentVisibility = ''
+  
+    if (result.hasContent) {
+      console.log(result.content); 
+      this.presentAlert('ALERTEAME ESTA');
+      this.scannedResultText = result.content;
     }
-  }
+  };
 
   stopScan() {
     BarcodeScanner.showBackground();
     BarcodeScanner.stopScan();
     document.querySelector('body').classList.remove('scanner-active');
-    this.content_visibility = '';
+    this.contentVisibility = '';
   }
 }
