@@ -49,7 +49,7 @@ export class LoginPage implements OnInit {
       if (this.authService.isLogedIn()) {
         const navigationExtras: NavigationExtras = {
           state: {
-            idProfesor: response.idAlumno,
+            idAlumno: response.idAlumno,
             nombre: response.nombre,
             apellido: response.apellido,
           },
