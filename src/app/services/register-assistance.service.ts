@@ -5,15 +5,21 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root',
 })
 export class RegisterAssistanceService {
-
-  assistanceURL = 'https://registrapp.onrender.com/api/asistencia/';
-
+  private assistanceURL = 'https://registrapp.onrender.com/api/asistencia/';
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  };
   constructor(private http: HttpClient) {}
 
-  register(idAlumno: string, idSeccion: string, estaPresente: boolean = true) {
-    this.http.post<any>(
+  register(idAlumno: number, idSeccion: number, estaPresente: boolean) {
+    return this.http.post<any>(
       this.assistanceURL,
-      { estaPresente, idSeccion, idAlumno },
+      {
+        esta_presente: estaPresente,
+        id_seccion: idSeccion,
+        id_alumno: idAlumno,
+      },
+      this.httpOptions
     );
   }
 }

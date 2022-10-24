@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, AnimationController } from '@ionic/angular';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { RegisterAssistanceService } from '../services/register-assistance.service';
 
 @Component({
   selector: 'app-alumnos',
@@ -13,12 +14,13 @@ export class AlumnosPage implements OnInit, OnDestroy {
   contentVisibility = '';
   handlerMessage = '';
   roleMessage = '';
-  scannedResultText = "";
+  scannedResultText = '';
 
   constructor(
     private animationCtrl: AnimationController,
     private alertController: AlertController,
-    private router: Router
+    private router: Router,
+    private registerAssistance: RegisterAssistanceService
   ) {
     const navigation = this.router.getCurrentNavigation();
     this.state = navigation?.extras.state as {
@@ -72,40 +74,32 @@ export class AlumnosPage implements OnInit, OnDestroy {
     animationClick.play();
   }
 
-  async checkPermission() {
-    try {
-      //Consultar o solicitar permisión
-      const status = await BarcodeScanner.checkPermission({ force: true });
-      if (status.granted) {
-        //El usuario otorgó permiso
-        return true;
-      }
-      return false;
-    } catch (e) {
-      console.log(e);
+  async startScan() {
+    await BarcodeScanner.checkPermission({ force: true });
+
+    BarcodeScanner.hideBackground();
+    document.querySelector('body').classList.add('scanner-active');
+    this.contentVisibility = 'hidden';
+    const result = await BarcodeScanner.startScan();
+    BarcodeScanner.showBackground();
+    document.querySelector('body').classList.add('scanner-active');
+    this.contentVisibility = '';
+
+    if (result.hasContent) {
+      let idAlumno = Number(localStorage.getItem('idAlumno'));
+      let idSeccion = Number(result.content);
+
+      this.scannedResultText = `Id alumno: ${idAlumno}, Id seccion: ${idSeccion}`;
+
+      this.registerAssistance
+        .register(idAlumno, idSeccion, true)
+        .subscribe(() => {
+          this.presentAlert(
+            `Gracias ${this.nombre} ${this.apellido}, asistencia registrada con éxito!`
+          );
+        });
     }
   }
-
-
-  async startScan()  {
-
-    await BarcodeScanner.checkPermission({ force: true });
-    
-    
-    BarcodeScanner.hideBackground();
-    document.querySelector('body').classList.add('scanner-active')
-    this.contentVisibility = 'hidden';
-    const result = await BarcodeScanner.startScan(); 
-    BarcodeScanner.showBackground()
-    document.querySelector('body').classList.add('scanner-active')
-    this.contentVisibility = ''
-  
-    if (result.hasContent) {
-      console.log(result.content); 
-      this.presentAlert('ALERTEAME ESTA');
-      this.scannedResultText = result.content;
-    }
-  };
 
   stopScan() {
     BarcodeScanner.showBackground();
