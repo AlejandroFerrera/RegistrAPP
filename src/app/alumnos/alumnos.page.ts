@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, AnimationController } from '@ionic/angular';
+import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 
 @Component({
   selector: 'app-alumnos',
@@ -8,6 +9,11 @@ import { AlertController, AnimationController } from '@ionic/angular';
   styleUrls: ['./alumnos.page.scss'],
 })
 export class AlumnosPage implements OnInit, OnDestroy {
+  scannedResult: any;
+  content_visibility = '';
+  handlerMessage = '';
+  roleMessage = '';
+
   constructor(
     private animationCtrl: AnimationController,
     private alertController: AlertController,
@@ -40,7 +46,9 @@ export class AlumnosPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.stopScan();
+  }
 
   ngOnInit() {
     /* paso de data */
@@ -61,5 +69,50 @@ export class AlumnosPage implements OnInit, OnDestroy {
       ]);
 
     animationClick.play();
+  }
+
+  async checkPermission() {
+    try {
+      //Consultar o solicitar permisión
+      const status = await BarcodeScanner.checkPermission({ force: true });
+      if (status.granted) {
+        //El usuario otorgó permiso
+        return true;
+      }
+      return false;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async startScan() {
+    try {
+      const permision = await this.checkPermission();
+      if (!permision) {
+        return;
+      }
+      await BarcodeScanner.hideBackground();
+      document.querySelector('body').classList.add('scanner-active');
+      this.content_visibility = 'hidden';
+      const result = await BarcodeScanner.startScan();
+      console.log(result);
+      BarcodeScanner.showBackground();
+      document.querySelector('body').classList.remove('scanner-active');
+      this.content_visibility = '';
+      if (result?.hasContent) {
+        this.scannedResult = result.content;
+        console.log(this.scannedResult);
+      }
+    } catch (e) {
+      console.log(e);
+      this.stopScan();
+    }
+  }
+
+  stopScan() {
+    BarcodeScanner.showBackground();
+    BarcodeScanner.stopScan();
+    document.querySelector('body').classList.remove('scanner-active');
+    this.content_visibility = '';
   }
 }

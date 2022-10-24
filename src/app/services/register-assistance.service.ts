@@ -5,12 +5,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root',
 })
 export class RegisterAssistanceService {
-  
-  assistanceURL = 'https://registrapp.onrender.com/api/asistencia/';
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  };
+  assistanceURL = 'https://registrapp.onrender.com/api/asistencia/';
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +14,6 @@ export class RegisterAssistanceService {
     this.http.post<any>(
       this.assistanceURL,
       { estaPresente, idSeccion, idAlumno },
-      this.httpOptions
     );
   }
 }
