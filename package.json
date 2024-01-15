@@ -28,7 +28,7 @@
     "@capacitor/keyboard": "4.0.1",
     "@capacitor/status-bar": "4.0.1",
     "@ionic-native/core": "^5.36.0",
-    "@ionic/angular": "^6.1.9",
+    "@ionic/angular": "^6.7.5",
     "@reactivex/rxjs": "^6.6.7",
     "angularx-qrcode": "^14.0.0",
     "rxjs": "~6.6.0",
